@@ -2,10 +2,16 @@ import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router"; 
 
 // 导入页面组件
+// 首页
 import Home from '../components/main/index.vue';
+// 出错页面 
+import notFound from "../components/notFound/notFound.vue";
+// 个人中心
 import User from '../components/user/index.vue';
-// import About from "@/views/About.vue";
-// import NotFound from "@/views/NotFound.vue";
+// 个人中心的页面路由
+import learn from  '../components/user/UserRight/learn.vue'
+//视频播放页面
+import video from "../components/video/video.vue";
 
 // 定义路由规则
 const routes: Array<RouteRecordRaw> = [
@@ -18,18 +24,29 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user",
     name: "User",
     component: User,
+    redirect: '/user/learn',
+    children:[
+      {
+        path: 'learn', // 相对路径，
+        name:'learn',
+        components : {  
+          UserSelf: learn, // 右侧边栏内容
+        },
+      }
+    ]
   },
-//   {
-//     path: "/user/:id", // 动态路由
-//     name: "User",
-//     component: () => import("@/views/User.vue"), // 懒加载组件
-//     props: true, // 将路由参数作为组件的 props 传递
-//   },
-//   {
-//     path: "/:catchAll(.*)", // 捕获所有未匹配的路由
-//     name: "NotFound",
-//     component: NotFound,
-//   },
+  {
+    path:'/vodei',
+    name:'vodei',
+    component:video,
+    props: route => ({ id: route.query.id })
+
+  },
+  {
+    path: "/:catchAll(.*)", // 捕获所有未匹配的路由
+    name: "NotFound",
+    component: notFound,
+  },
 ];
 
 // 创建路由实例

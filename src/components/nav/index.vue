@@ -50,9 +50,8 @@
       </el-row>
     </el-col>
     <el-col :span="4" v-if="isLogin">
-      <router-link to="/User"><el-button size="large" type="success">个人主页</el-button></router-link> |
+      <router-link to="/User"><el-button size="large" type="success" >个人主页</el-button></router-link> 
     </el-col>
-    <router-view></router-view>
   </el-row>
 </template>
 
