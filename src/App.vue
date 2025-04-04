@@ -1,16 +1,19 @@
 <template>
-  <Main></Main>
+  <TopNav></TopNav>
+  <router-view>
+  </router-view>
 
 </template>
    
 
 
 <script>
-import { ref } from 'vue';
-import { ElButton } from 'element-plus'
-import Main from '@/components/main/index.vue'
+
+import TopNav from '@/components/nav/index.vue'
+import Home from '@/components/main/index.vue'
+import { ElButton } from 'element-plus';
 export default{
-  components:{ElButton,Main}
+  components:{Home,TopNav,ElButton}
 }
 </script>
 <style lang="less" scoped>

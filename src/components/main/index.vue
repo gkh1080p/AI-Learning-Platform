@@ -1,18 +1,15 @@
 <template>
   <div class="first">
-    <TopNav></TopNav>
     <Carousel ></Carousel>
-    <ListClass class="BaseClass"></ListClass> 
+    <ListClass></ListClass> 
   </div>
 </template>
 <script lang="ts">
-import TopNav from './top_nav/index.vue';
 import Carousel from './Carousel/index.vue';
 import ListClass from './ListClass/index.vue';
 export default {
-  name:'Main',
+  name:'Home',
   components: {
-    TopNav,
     Carousel,
     ListClass
   }

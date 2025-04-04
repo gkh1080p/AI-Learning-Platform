@@ -43,30 +43,34 @@
     </el-col>
 
     <!-- 登录/注册 -->
-    <el-col :span="4">
+    <el-col :span="4" v-if="!isLogin">
       <el-row>
         <el-col :span="13"><el-button size="large" type="success">登录</el-button></el-col>
         <el-col :span="11"><el-button size="large" type="primary" plain>注册</el-button></el-col>
       </el-row>
     </el-col>
+    <el-col :span="4" v-if="isLogin">
+      <router-link to="/User"><el-button size="large" type="success">个人主页</el-button></router-link> |
+    </el-col>
+    <router-view></router-view>
   </el-row>
 </template>
 
-<script lang="ts" scoped>
+<script lang="ts">
 import { Search } from "@element-plus/icons-vue";
 import { useSearchInput } from "./index.ts";
-
+import {  } from "element-plus";
 export default {
   name: "TopNav",
   setup() {
-    const { isActive, keyword, searchBox, openSearch } = useSearchInput();
-    return { isActive, keyword, searchBox, openSearch };
+    const { isActive,isLogin, keyword, searchBox, openSearch } = useSearchInput();
+    return { isActive,isLogin, keyword, searchBox, openSearch };
   },
-  components: { Search }
+  components: { Search ,}
 };
 </script>
 
-<style lang="less" >
+<style lang="less" scoped>
 .master{
   display: flex;
   align-items: center;
