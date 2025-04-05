@@ -15,27 +15,35 @@
             <el-row>
                 <el-col :span="6" class="list_tab">
                     <ul>
-                        <li>
-                            <el-icon :size="20" color="#fe9900">
-                                <MoreFilled />
-                            </el-icon>
-                            <div>目录</div>
-                        </li>
-                        <li><el-icon :size="20" color="#fe9900">
-                                <ChatDotSquare />
-                            </el-icon>
+                        <router-link to="/video/tabList" class="nav-link">
+                            <li :class="{ active: activeTab === 'tabList' }" @click="activeTab = 'tabList'">
+                                <el-icon :size="20" color="#fe9900">
+                                    <MoreFilled />
+                                </el-icon>
+                                <div>目录</div>
+                            </li>
+                        </router-link>
+                        <router-link to="/video/commentList" class="nav-link">
+                            <li :class="{ active: activeTab === 'commentList' }" @click="activeTab = 'commentList'">
+                                <el-icon :size="20" color="#fe9900">
+                                    <ChatDotSquare />
+                                </el-icon>
+                                <div>评论</div>
+                            </li>
+                        </router-link>
+                        <router-link to="/video/fileList" class="nav-link">
+                            <li :class="{ active: activeTab === 'fileList' }" @click="activeTab = 'fileList'">
 
-                            <div>评论</div>
-                        </li>
-                        <li>
-                            <el-icon :size="20" color="#fe9900">
-                                <FolderRemove />
-                            </el-icon>
-                            <div>讲义</div>
-                        </li>
+                                <el-icon :size="20" color="#fe9900">
+                                    <FolderRemove />
+                                </el-icon>
+                                <div>讲义</div>
+
+                            </li>
+                        </router-link>
                     </ul>
                 </el-col>
-                <el-col :span="18" style="background-color: blue;" class="list_value">
+                <el-col :span="18" class="list_value">
                     <router-view name="video">
                     </router-view>
                 </el-col>
@@ -47,7 +55,7 @@
 
 
 <script>
-import { reactive } from 'vue';
+import { reactive,ref } from 'vue';
 import VideoPlayer from './VideoPlayer.vue';
 import { ChatDotSquare, MoreFilled, FolderRemove } from '@element-plus/icons-vue'
 export default {
@@ -56,11 +64,13 @@ export default {
         VideoPlayer, ChatDotSquare, MoreFilled, FolderRemove
     },
     setup() {
+        // 侧边功能栏高亮
+        const activeTab = ref('tabList');
         // 视频播放配置
         const playerOptions = reactive({
             video: {
                 url: 'https://static.smartisanos.cn/common/video/t1-ui.mp4',
-                pic: 'https://www.runoob.com/try/demo_source/movie.mp4.jpg', // 示例封面图
+                // pic: 'https://www.runoob.com/try/demo_source/movie.mp4.jpg', // 示例封面图
             },
             autoplay: false,
             theme: '#FADFA3',
@@ -89,7 +99,7 @@ export default {
 
 
         return {
-            playerOptions, ChatDotSquare, MoreFilled, FolderRemove
+            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab
         };
     },
 
@@ -103,7 +113,6 @@ export default {
     width: 88%;
     height: 580px; // 固定整体高度，确保两边的高度一致
     margin: 0 auto;
-    background-color: pink;
 
     // 播放器部分样式
     .video-wrapper {
@@ -126,12 +135,13 @@ export default {
 
 
 
+
     // 右边列表部分
     .list_all {
         // background-color: yellow;
         height: 100%; // 让右边部分跟左边播放器高度一致
         display: flex;
-
+        margin-left: -40px;
         flex-direction: column; // 确保子元素垂直排列
         justify-content: space-between; // 确保子元素分布合理
 
@@ -145,6 +155,8 @@ export default {
         .list_tab {
             background-color: #434a50;
             height: 100%; // 让每个tab的高度与右侧一致
+            box-shadow: 0 4px 8px rgba(193, 146, 146, 0.9);
+            border-radius: 10px 0 0 10px;
 
             >ul {
                 color: #fff;
@@ -155,35 +167,51 @@ export default {
                 // padding-left: 10px;
                 margin: 0; // 去除默认外边距
 
-                >li {
-                    width: 100%;
-                    height: 50px;
-                    list-style: none; // 保守写法，li也加一遍
-                    padding: 0;
-                    padding-left: 10px;
-                    display: flex;
-                    cursor: pointer;     
-                    user-select: none;  
-                    >div {
-                        width: 50%;
-                        margin-left: 5px;
-                    }
-                    // 鼠标悬停效果
-                &:hover {
-                    background-color: #5a626a; // 深一点背景色
-                    color: #ffd04b; // 字体变亮
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                }
-                }
+                //路由样式
+                .nav-link {
+                    display: block;
+                    text-decoration: none;
+                    color: inherit;
 
-                
+                    >li {
+                        width: 100%;
+                        height: 50px;
+                        list-style: none; // 保守写法，li也加一遍
+                        padding: 0;
+                        padding-left: 10px;
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                        user-select: none;
+
+                        >div {
+                            width: 50%;
+                            margin-left: 5px;
+                        }
+
+                        // 鼠标悬停效果
+                        &:hover {
+                            background-color: #5a626a; // 深一点背景色
+                            color: #4bf8be; // 字体变亮
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                        }
+                    }
+
+                    >li.active {
+                        background-color: #3a3f45; // 比 hover 更深
+                        color: #ffd700; // 金色字体
+                        font-weight: bold;
+                        border-left: 4px solid #409eff; // 左边高亮条
+                    }
+                }
             }
         }
 
         // 列表内容样式
         .list_value {
-            background-color: blue;
+            background-color: #191919;
             height: 100%; // 保证内容部分填满
+            border-radius: 0 10px 10px 0;
         }
     }
 }

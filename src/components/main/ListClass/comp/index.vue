@@ -1,9 +1,7 @@
 <template>
     <!-- 后期迭代传入数据修改 -->
      <!-- 传输id后续根据id来实现发送请求 -->
-    <router-link :to="{ path: '/vodei', query: { id: message.id} }">
-
-
+    <router-link :to="{ path: message.path, query: { id: message.id} }">
     <el-card class="card" :body-style="{ padding: '0px', height: '120px' }" :shadow="'hover'">
 
         <el-image style="width: 100%; height: 120% ;" class="carimage"

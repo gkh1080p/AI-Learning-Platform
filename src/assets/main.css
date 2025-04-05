@@ -9,3 +9,8 @@ html{
 body{
     width: 2000px;
 }
+/* 防止出现两个滚动条 */
+html, body {
+    height: 100%;
+    overflow: hidden;
+  }

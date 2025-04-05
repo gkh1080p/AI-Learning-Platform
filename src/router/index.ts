@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router"; 
+import type { RouteRecordRaw } from "vue-router";
 
 // 导入页面组件
 // 首页
@@ -9,9 +9,13 @@ import notFound from "../components/notFound/notFound.vue";
 // 个人中心
 import User from '../components/user/index.vue';
 // 个人中心的页面路由
-import learn from  '../components/user/UserRight/learn.vue'
+import learn from '../components/user/UserRight/learn.vue'
 //视频播放页面
 import video from "../components/video/video.vue";
+// 评论，目录，讲义
+import tabList from "../components/video/tabList.vue";
+import fileList from "../components/video/fileList.vue";
+import commentList from "../components/video/commentList.vue";
 
 // 定义路由规则
 const routes: Array<RouteRecordRaw> = [
@@ -25,21 +29,47 @@ const routes: Array<RouteRecordRaw> = [
     name: "User",
     component: User,
     redirect: '/user/learn',
-    children:[
+    children: [
       {
         path: 'learn', // 相对路径，
-        name:'learn',
-        components : {  
+        name: 'learn',
+        components: {
           UserSelf: learn, // 右侧边栏内容
         },
       }
     ]
   },
+  // 视频页面路由
   {
-    path:'/vodei',
-    name:'vodei',
-    component:video,
-    props: route => ({ id: route.query.id })
+    path: '/video',
+    name: 'video',
+    component: video,
+    props: route => ({ id: route.query.id }),
+    redirect: '/video/tabList',
+    children:[
+      {
+        // 此处不能加‘/’
+        path:'tabList',
+        name:'tabList',
+        components:{
+          video:tabList
+        }
+      },
+      {
+        path:'fileList',
+        name:'fileList',
+        components:{
+          video:fileList
+        }
+      },
+      {
+        path:'commentList',
+        name:'commentList',
+        components:{
+          video:commentList
+        }
+      }
+    ]
 
   },
   {

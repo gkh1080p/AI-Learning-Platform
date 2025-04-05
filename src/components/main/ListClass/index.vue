@@ -13,7 +13,7 @@
             <div class="title_left">XXXXX</div>
             <div class="title_right">查看更多 ></div>
         </div>
-        <CarComp v-for="item in KindObj" :key="item.login" :message="KindObj" class="cardOne"></CarComp>
+        <CarComp v-for="item in KindObj" :key="item.login" :message="item" class="cardOne"></CarComp>
     </div>
     <!-- 第三分类 -->
     <div class="kindclass">
@@ -21,7 +21,7 @@
             <div class="title_left">XXXXX</div>
             <div class="title_right">查看更多 ></div>
         </div>
-        <CarComp v-for="item in KindObj" :key="item.login" :message="KindObj" class="cardOne"></CarComp>
+        <CarComp v-for="item in KindObj" :key="item.login" :message="item" class="cardOne"></CarComp>
     </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     name: "ListClass",
     setup() {
         // 数据集合
-        const KindObj = [{ class: '第一类', login: 1,path:'/vodei',id:'11223' },{ class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' }, { class: '第一类', login: 1,path:'/vodei',id:'11223' },  ]
+        const KindObj = [{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },{ class: '第一类', login: 1,path:'/video',id:'11223' },  ]
 
         return { KindObj }
     },
