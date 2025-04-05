@@ -1,91 +1,56 @@
 <template>
-    <div class="video-container">
-      <video 
-        ref="videoPlayer" 
-        class="video-js vjs-big-play-centered"
-      ></video>
-    </div>
-  </template>
-  
-  <script>
-  import { ref, onMounted, onBeforeUnmount, watch, toRefs } from 'vue'
-  import videojs from 'video.js'
-  import 'video.js/dist/video-js.css'
-  
-  export default {
-    name:"VideoPlayer",
-    props: {
-      options: {
-        type: Object,
-        required: true,
-        default: () => ({
-          sources: [],
-          controls: true,
-          autoplay: false,
-          preload: 'auto'
-        })
-      }
+  <div ref="dplayerContainer" class="dplayer-container"></div>
+</template>
+
+<script>
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import DPlayer from 'dplayer';
+
+export default {
+  name: 'VideoPlayer',
+  props: {
+    options: {
+      type: Object,
+      required: true,
     },
-  
-    setup(props, context) {
-      const videoPlayer = ref(null)
-      let player = null
-  
-      // 初始化播放器
-      onMounted(() => {
-        player = videojs(
-          videoPlayer.value,
-          props.options,
-          () => {
-            console.log('播放器初始化完成')
-          }
-        )
-      })
-  
-      // 销毁播放器
-      onBeforeUnmount(() => {
-        if (player) {
-          player.dispose()
-        }
-      })
-  
-      // 监听options变化
-      watch(
-        () => props.options,
-        (newVal) => {
-          if (player) {
-            player.src(newVal.sources)
-          }
-        },
-        { deep: true }
-      )
-  
-      // 暴露控制方法
-      const play = () => player?.play()
-      const pause = () => player?.pause()
-      const getCurrentTime = () => player?.currentTime()
-  
-      return {
-        videoPlayer,
-        play,
-        pause,
-        getCurrentTime
+  },
+  setup(props) {
+    const dplayerContainer = ref(null);
+    let dp = null;
+
+    onMounted(() => {
+      dp = new DPlayer({
+        container: dplayerContainer.value,
+        ...props.options,
+      });
+    });
+
+    onBeforeUnmount(() => {
+      if (dp) {
+        dp.destroy();
       }
-    }
-  }
-  </script>
-  
-  <style scoped>
-  .video-container {
-    position: relative;
-    padding-top: 56.25%;
-  }
-  
-  .video-js {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  </style>
+    });
+
+    watch(
+      () => props.options.video.url,
+      (newUrl) => {
+        if (dp && newUrl) {
+          dp.switchVideo({ url: newUrl });
+        }
+      }
+    );
+
+    return {
+      dplayerContainer,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.dplayer-container {
+  width: 100%;
+  height: 100%;
+}
+
+</style>
