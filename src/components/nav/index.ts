@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, nextTick } from "vue";
 export function useSearchInput() {
   const isActive = ref(false);
    // 零时的出现个人主页islong为true
-  const isLogin=ref(true)
+  const isLogin=ref(false)
   const keyword = ref("");
   const searchBox = ref<any>(null); // 使用 any 或具体组件类型
 

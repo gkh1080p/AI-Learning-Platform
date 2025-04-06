@@ -16,7 +16,11 @@ import video from "../components/video/video.vue";
 import tabList from "../components/video/tabList.vue";
 import fileList from "../components/video/fileList.vue";
 import commentList from "../components/video/commentList.vue";
-
+// 登录页面路由
+import code from '../components/nav/login/code.vue'
+import password from "../components/nav/login/password.vue";
+import register from "../components/nav/login/register.vue";
+import retrieve from "../components/nav/login/retrieve.vue";
 // 定义路由规则
 const routes: Array<RouteRecordRaw> = [
   {
@@ -71,6 +75,43 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
 
+  },
+  // 登录路由
+  {
+    path:'/login',
+    redirect: '/video/tabList',
+    children:[
+      {
+        path:'password',
+        name:'password',
+        components:{
+          default:Home,
+          login:password
+        }
+      },
+      {
+        path:'code',
+        name:'code',
+        components:{
+          default:Home,
+          login:code
+        }
+      },{
+        path:'register',
+        name:'register',
+        components:{
+          default:Home,
+          login:register
+        }
+      },{
+        path:'retrieve',
+        name:'retrieve',
+        components:{
+          default:Home,
+          login:retrieve
+        }
+      },
+    ]
   },
   {
     path: "/:catchAll(.*)", // 捕获所有未匹配的路由

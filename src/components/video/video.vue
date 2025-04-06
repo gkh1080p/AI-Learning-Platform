@@ -15,30 +15,38 @@
             <el-row>
                 <el-col :span="6" class="list_tab">
                     <ul>
+                        <router-link to="/" class="nav-link">
+                            <li :class="{ active: activeTab === '/' }">
+                                <el-icon :size="20" color="#fe9900">
+                                    <HomeFilled />
+                                </el-icon>
+                                <div>回到主页</div>
+                            </li>
+                        </router-link>
                         <router-link to="/video/tabList" class="nav-link">
-                            <li :class="{ active: activeTab === 'tabList' }" @click="activeTab = 'tabList'">
+                            <li :class="{ active: activeTab === 'tabList' }">
                                 <el-icon :size="20" color="#fe9900">
                                     <MoreFilled />
                                 </el-icon>
                                 <div>目录</div>
                             </li>
                         </router-link>
+
                         <router-link to="/video/commentList" class="nav-link">
-                            <li :class="{ active: activeTab === 'commentList' }" @click="activeTab = 'commentList'">
+                            <li :class="{ active: activeTab === 'commentList' }">
                                 <el-icon :size="20" color="#fe9900">
                                     <ChatDotSquare />
                                 </el-icon>
                                 <div>评论</div>
                             </li>
                         </router-link>
-                        <router-link to="/video/fileList" class="nav-link">
-                            <li :class="{ active: activeTab === 'fileList' }" @click="activeTab = 'fileList'">
 
+                        <router-link to="/video/fileList" class="nav-link">
+                            <li :class="{ active: activeTab === 'fileList' }">
                                 <el-icon :size="20" color="#fe9900">
                                     <FolderRemove />
                                 </el-icon>
                                 <div>讲义</div>
-
                             </li>
                         </router-link>
                     </ul>
@@ -55,17 +63,25 @@
 
 
 <script>
-import { reactive,ref } from 'vue';
+import { reactive, ref, computed ,onMounted,onUnmounted} from 'vue';
 import VideoPlayer from './VideoPlayer.vue';
-import { ChatDotSquare, MoreFilled, FolderRemove } from '@element-plus/icons-vue'
+import { ChatDotSquare, MoreFilled, FolderRemove, HomeFilled } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router';
 export default {
     name: 'Video',
     components: {
-        VideoPlayer, ChatDotSquare, MoreFilled, FolderRemove
+        VideoPlayer, ChatDotSquare, MoreFilled, FolderRemove, HomeFilled
     },
     setup() {
-        // 侧边功能栏高亮
-        const activeTab = ref('tabList');
+        // 功能栏高亮
+        const route = useRoute();
+        const activeTab = computed(() => {
+            const path = route.path;
+            if (path.includes('tabList')) return 'tabList';
+            if (path.includes('commentList')) return 'commentList';
+            if (path.includes('fileList')) return 'fileList';
+            return '';
+        });
         // 视频播放配置
         const playerOptions = reactive({
             video: {
@@ -97,9 +113,18 @@ export default {
 
         });
 
+        onMounted(() => {
+            // 进入视频播放页面，禁用滚动条
+            document.body.style.overflow = 'hidden'
+        })
+
+        onUnmounted(() => {
+            // 离开页面时恢复滚动条
+            document.body.style.overflow = 'auto'
+        })
 
         return {
-            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab
+            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab, HomeFilled
         };
     },
 
