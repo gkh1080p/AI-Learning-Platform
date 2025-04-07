@@ -21,6 +21,8 @@ import code from '../components/nav/login/code.vue'
 import password from "../components/nav/login/password.vue";
 import register from "../components/nav/login/register.vue";
 import retrieve from "../components/nav/login/retrieve.vue";
+// 工具分享
+import tool from '../components/tool/tool.vue'
 // 定义路由规则
 const routes: Array<RouteRecordRaw> = [
   {
@@ -117,6 +119,11 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
     ]
+  },
+  {
+    path:'/tool',
+    name:'tool',
+    component:tool
   },
   {
     path: "/:catchAll(.*)", // 捕获所有未匹配的路由

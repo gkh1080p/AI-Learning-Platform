@@ -19,7 +19,9 @@
           <div class="nav">课程分类</div>
         </el-col>
         <el-col :span="4">
-          <div class="nav">课程分类</div>
+          <router-link to="/tool">
+            <div class="nav">实用工具</div>
+          </router-link>
         </el-col>
         <el-col :span="8" class="custom-hidden-xs"></el-col>
       </el-row>
@@ -57,7 +59,7 @@
           </el-button>
         </el-col>
         <el-col :span="11" class="register">
-          <el-button size="large" type="primary" plain @click="openLogin_register" >注册</el-button>
+          <el-button size="large" type="primary" plain @click="openLogin_register">注册</el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -70,7 +72,8 @@
 
 
   <!-- 登录弹窗 -->
-  <el-dialog v-model="dialogVisible" :title="$route.path === '/login/register' ? '注册用户' : '用户登录'" width="500px" :before-close="handleClose" class="login-dialog" center>
+  <el-dialog v-model="dialogVisible" :title="$route.path === '/login/register' ? '注册用户' : '用户登录'" width="500px"
+    :before-close="handleClose" class="login-dialog" center>
     <!-- 表单内容 -->
     <div class="form-wrapper">
       <router-view name="login" @closeDialog="dialogVisible = false"></router-view>
@@ -83,7 +86,7 @@
       </div>
     </div>
 
-    
+
   </el-dialog>
 
 </template>
@@ -103,7 +106,7 @@ export default {
       dialogVisible.value = true
       router.push('/login/password')
     }
-    const openLogin_register=()=>{
+    const openLogin_register = () => {
       dialogVisible.value = true
       router.push('/login/register')
     }
