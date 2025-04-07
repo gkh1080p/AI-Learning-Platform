@@ -48,8 +48,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/video',
     name: 'video',
     component: video,
-    props: route => ({ id: route.query.id }),
-    redirect: '/video/tabList',
+    // props: route => ({ id: route.query.id }),
+    redirect: (to) => ({ // 动态重定向
+      path: '/video/tabList',
+      query: { 
+        course_id: to.query.id || localStorage.getItem('courseId') || '1' 
+      }
+    }),
     children:[
       {
         // 此处不能加‘/’
@@ -57,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
         name:'tabList',
         components:{
           video:tabList
-        }
+        },
       },
       {
         path:'fileList',

@@ -23,7 +23,8 @@
                                 <div>回到主页</div>
                             </li>
                         </router-link>
-                        <router-link to="/video/tabList" class="nav-link">
+                        <router-link :to="{ path: '/video/tabList', query: { course_id: courseId } }" class="nav-link"
+                            path>
                             <li :class="{ active: activeTab === 'tabList' }">
                                 <el-icon :size="20" color="#fe9900">
                                     <MoreFilled />
@@ -52,7 +53,7 @@
                     </ul>
                 </el-col>
                 <el-col :span="18" class="list_value">
-                    <router-view name="video">
+                    <router-view name="video" @changeVideo="handleVideoChange">
                     </router-view>
                 </el-col>
             </el-row>
@@ -62,11 +63,11 @@
 
 
 
-<script>
-import { reactive, ref, computed ,onMounted,onUnmounted} from 'vue';
+<script lang="ts">
+import { reactive, ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import VideoPlayer from './VideoPlayer.vue';
 import { ChatDotSquare, MoreFilled, FolderRemove, HomeFilled } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router'
 export default {
     name: 'Video',
     components: {
@@ -112,19 +113,34 @@ export default {
 
 
         });
+        // 子组件传来的 url 直接赋值
+        const handleVideoChange = (url: string) => {
+
+            playerOptions.video.url = url
+        }
+
+        // 章节id存储
+        const courseId = ref(localStorage.getItem('courseId') || route.query.id)
 
         onMounted(() => {
             // 进入视频播放页面，禁用滚动条
             document.body.style.overflow = 'hidden'
+            // 获得路由参数
+            const queryId = route.query.id
         })
 
         onUnmounted(() => {
             // 离开页面时恢复滚动条
             document.body.style.overflow = 'auto'
         })
+        // 同步 courseId 到 localStorage
+        watch(courseId, (val) => {
+            console.log(courseId)
+            localStorage.setItem('courseId', String(val))
+        })
 
         return {
-            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab, HomeFilled
+            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab, HomeFilled, handleVideoChange, courseId
         };
     },
 

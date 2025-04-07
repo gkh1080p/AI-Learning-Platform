@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@videojs/http-streaming": "^3.17.0",
+    "axios": "^1.8.4",
     "dplayer": "^1.27.1",
     "element-plus": "^2.9.7",
     "vue": "^3.5.13",

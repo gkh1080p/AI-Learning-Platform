@@ -91,6 +91,7 @@ import { ref } from 'vue';
 
 export default {
     name: 'commentList',
+    emits: ['changeVideo'],
     setup() {
         // 分类选项
         const comClass = ref('一周时间内');
@@ -112,7 +113,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=30',
                 text: content,
                 time: new Date().toLocaleString(),
-                likes: 0,
+                likes: "0",
                 isLiked: false,
                 hot: 0,
                 collapsed: true,
@@ -171,7 +172,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=1',
                 text: '这个视频太赞了！讲得清晰易懂👍',
                 time: '2025-04-06 14:32',
-                likes: 123,
+                likes: "123",
                 isLiked: false,
                 hot: 156,
                 collapsed: true,
@@ -187,7 +188,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=5',
                 text: '请问这个播放器组件是自己写的吗？能开源吗？期待后续更新和解说~这个功能真的太棒了，受益匪浅👍👍👍',
                 time: '2025-04-06 15:28',
-                likes: 32,
+                likes: "32",
                 isLiked: false,
                 hot: 156,
                 collapsed: true,
@@ -204,7 +205,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=12',
                 text: '感谢大佬分享，我一直在找类似的功能，现在终于有思路了！',
                 time: '2025-04-06 15:45',
-                likes: 54,
+                likes: "54",
                 isLiked: false,
                 hot: 130,
                 collapsed: true,
@@ -220,7 +221,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=18',
                 text: '想问下这个评论模块支持后端分页加载吗？',
                 time: '2025-04-06 16:02',
-                likes: 12,
+                likes:" 12",
                 isLiked: false,
                 hot: 88,
                 collapsed: true,
@@ -236,7 +237,7 @@ export default {
                 avatar: 'https://i.pravatar.cc/48?img=25',
                 text: '能不能做成手机端适配的版本？现在在手机上看有点挤',
                 time: '2025-04-06 16:15',
-                likes: 5,
+                likes: "5",
                 isLiked: false,
                 hot: 47,
                 collapsed: true,

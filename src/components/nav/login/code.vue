@@ -2,7 +2,7 @@
   <el-form :model="form" :rules="rules" ref="codeFormRef" label-position="top">
     <!-- 邮箱 -->
     <el-form-item label="邮箱" prop="email">
-      <el-input v-model="form.email" placeholder="请输入邮箱" clearable />
+      <el-input v-model="form.email" placeholder="请输入邮箱" clearable @blur="debounceValidate('email')"/>
     </el-form-item>
 
     <!-- 人机校验码（比如 3 + 4） -->
@@ -10,7 +10,7 @@
   <template #label>
     请输入验证码（{{ captcha.question }}）
   </template>
-  <el-input v-model="form.captchaInput" placeholder="请输入答案" clearable />
+  <el-input v-model="form.captchaInput" placeholder="请输入答案" clearable  @blur="debounceValidate('captchaInput')"/>
 </el-form-item>
 
 
@@ -21,6 +21,8 @@
         placeholder="请输入验证码"
         clearable
         style="width: 60%"
+        captchaInput
+        @blur="debounceValidate('emailCode')"
       />
       <el-button
         style="margin-left: 10px"
@@ -33,7 +35,7 @@
   </el-form>
 
   <!-- 底部按钮 -->
-  <div style="text-align: right; margin-top: 20px">
+  <div style="text-align: right; margin-top: 20px;display: flex;justify-content: center; margin-bottom:20px;">
     <el-button @click="cancel">取消</el-button>
     <el-button type="primary" @click="submit">确认</el-button>
   </div>
@@ -42,7 +44,9 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
-
+import { debounce } from '@/components/utils/debounce' // 引入防抖函数
+// 向父组件触发关闭弹窗事件
+const emit = defineEmits(['closeDialog'])
 // 表单数据
 const form = reactive({
   email: '',
@@ -54,7 +58,7 @@ const form = reactive({
 const rules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱格式', trigger: ['blur', 'change'] },
+    { type: 'email', message: '请输入正确的邮箱格式', trigger: ['blur'] },
   ],
   captchaInput: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -109,7 +113,16 @@ function sendEmailCode() {
 // 点击确认按钮
 function submit() {
   codeFormRef.value.validate((valid: boolean) => {
+    
     if (valid) {
+
+
+
+      // 在这里发送请求
+
+
+
+
       ElMessage.success('登录成功！')
       emit('closeDialog') // 关闭弹窗
     } else {
@@ -123,8 +136,11 @@ function cancel() {
   emit('closeDialog')
 }
 
-// 向父组件触发关闭弹窗事件
-const emit = defineEmits(['closeDialog'])
+// 防抖的验证函数
+const debounceValidate = debounce((field: string) => {
+  codeFormRef.value?.validateField(field)
+    }, 500)
+
 </script>
 
 <style scoped>

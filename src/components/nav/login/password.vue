@@ -2,11 +2,11 @@
     <el-form :model="loginForm" :rules="rules" ref="loginRef" label-position="top">
         <el-form-item label="账号" prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入账号" clearable
-                style="height: 44px; font-size: 16px" />
+                style="height: 44px; font-size: 16px" @blur="debounceValidate('username')" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password" type="password" show-password placeholder="请输入密码" clearable
-                style="height: 44px; font-size: 16px" />
+                style="height: 44px; font-size: 16px"  @blur="debounceValidate('password')"/>
         </el-form-item>
     </el-form>
     <!-- 按钮区 -->
@@ -19,11 +19,12 @@
 <script lang="ts">
 import { ref } from "vue";
 import { ElMessage } from 'element-plus'
+import { debounce } from '@/components/utils/debounce' // 引入防抖函数
 export default {
-
     name: 'password',
+    emits: ['closeDialog'],
     setup(props, context) {
-       
+
         // 收集账号密码
         const loginForm = ref({
             username: '',
@@ -34,13 +35,13 @@ export default {
             {
                 type: 'email',
                 message: '邮箱格式不正确',
-                trigger: ['blur', 'change']
+                trigger: ['blur']
             }],
             password: [{ required: true, message: '请输入密码', trigger: 'blur' },
             {
                 min: 8,
                 message: '密码不能少于8位',
-                trigger: ['blur', 'change']
+                trigger: ['blur']
             }
             ]
         }
@@ -63,13 +64,17 @@ export default {
                 }
             })
         }
-
+        // 防抖的验证函数
+        const debounceValidate = debounce((field: string) => {
+            loginRef.value?.validateField(field)
+        }, 500)
         return {
             login,
             loginForm,
             rules,
             loginRef,
             submitLogin,
+            debounceValidate
         }
     }
 }

@@ -15,4 +15,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // 取消代理
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://118.178.132.54:8080',
+  //       changeOrigin: true,
+  //       rewrite: path => path.replace(/^\/api/, '')
+  //     }
+  //   }
+  // }
 })
