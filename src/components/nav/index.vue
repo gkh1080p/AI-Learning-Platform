@@ -5,7 +5,7 @@
     <el-col :span="14" v-if="!isActive">
       <el-row :gutter="1">
         <el-col :span="4">
-          <router-link to="/">
+          <router-link to="/" >
             <div class="nav ">
               <el-image class="nav_one" style="width: 100px; height: 100px" src="https://i.imgur.com/EJ3x16E.png"
                 fit="contain" />
@@ -13,14 +13,16 @@
           </router-link>
         </el-col>
         <el-col :span="4">
-          <div class="nav">课程分类</div>
+          <div class="nav">教师系统</div>
         </el-col>
         <el-col :span="4">
-          <div class="nav">课程分类</div>
+          <router-link to="/allCourse" class="nav_link">
+            <div class="nav">全部课程</div>
+          </router-link>
         </el-col>
         <el-col :span="4">
-          <router-link to="/tool">
-            <div class="nav">实用工具</div>
+          <router-link to="/tool" class="tool">
+            <div class="nav">工具箱</div>
           </router-link>
         </el-col>
         <el-col :span="8" class="custom-hidden-xs"></el-col>
@@ -96,6 +98,7 @@ import { Search } from "@element-plus/icons-vue";
 import { useSearchInput } from "./index.ts";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
+import router from "../../router/index.ts";
 export default {
   name: "TopNav",
   setup() {
@@ -151,6 +154,9 @@ export default {
   margin: 0;
   display: flex;
   justify-content: center;
+  text-decoration: none;
+  color: black;
+  
 }
 
 .nav_one {
@@ -221,4 +227,17 @@ export default {
   user-select: none;
   /* 禁止选中 */
 }
+
+// 工具箱格式
+.tool{
+  text-decoration: none !important; /* 强制所有元素无下划线 */
+  color: black;
+}
+
+// Remove underline from 全部课程 link
+.nav_link {
+  text-decoration: none !important;
+  color: black;
+}
+
 </style>

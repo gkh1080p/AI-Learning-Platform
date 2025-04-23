@@ -1,142 +1,141 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
-// 导入页面组件
-// 首页
-import Home from '../components/main/index.vue';
-// 出错页面 
-import notFound from "../components/notFound/notFound.vue";
-// 个人中心
-import User from '../components/user/index.vue';
-// 个人中心的页面路由
-import learn from '../components/user/UserRight/learn.vue'
-//视频播放页面
-import video from "../components/video/video.vue";
-// 评论，目录，讲义
-import tabList from "../components/video/tabList.vue";
-import fileList from "../components/video/fileList.vue";
-import commentList from "../components/video/commentList.vue";
-// 登录页面路由
-import code from '../components/nav/login/code.vue'
-import password from "../components/nav/login/password.vue";
-import register from "../components/nav/login/register.vue";
-import retrieve from "../components/nav/login/retrieve.vue";
-// 工具分享
-import tool from '../components/tool/tool.vue'
-// 定义路由规则
+// 定义路由规则，使用懒加载方式引入组件
 const routes: Array<RouteRecordRaw> = [
+  // 首页路由
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import('../components/main/index.vue'),
   },
+
+  // 个人中心路由
   {
     path: "/user",
     name: "User",
-    component: User,
+    component: () => import('../components/user/index.vue'),
     redirect: '/user/learn',
     children: [
       {
-        path: 'learn', // 相对路径，
+        path: 'learn', // 个人学习记录页面
         name: 'learn',
         components: {
-          UserSelf: learn, // 右侧边栏内容
+          UserSelf: () => import('../components/user/UserRight/learn.vue'),
         },
       }
     ]
   },
-  // 视频页面路由
+
+  // 视频播放页面路由
   {
     path: '/video',
     name: 'video',
-    component: video,
-    // props: route => ({ id: route.query.id }),
-    redirect: (to) => ({ // 动态重定向
+    component: () => import('../components/video/video.vue'),
+    // 重定向到 tabList 并携带课程 id
+    redirect: (to) => ({
       path: '/video/tabList',
-      query: { 
-        course_id: to.query.id || localStorage.getItem('courseId') || '1' 
+      query: {
+        course_id: to.query.id || localStorage.getItem('courseId') || '1'
       }
     }),
-    children:[
+    children: [
       {
-        // 此处不能加‘/’
-        path:'tabList',
-        name:'tabList',
-        components:{
-          video:tabList
+        path: 'tabList', // 课程目录页
+        name: 'tabList',
+        components: {
+          video: () => import('../components/video/tabList.vue')
         },
       },
       {
-        path:'fileList',
-        name:'fileList',
-        components:{
-          video:fileList
+        path: 'fileList', // 讲义查看页
+        name: 'fileList',
+        components: {
+          video: () => import('../components/video/fileList.vue')
         }
       },
       {
-        path:'commentList',
-        name:'commentList',
-        components:{
-          video:commentList
+        path: 'commentList', // 评论页
+        name: 'commentList',
+        components: {
+          video: () => import('../components/video/commentList.vue')
         }
       }
     ]
-
   },
-  // 登录路由
+
+  // 登录注册相关页面
   {
-    path:'/login',
+    path: '/login',
     redirect: '/video/tabList',
-    children:[
+    children: [
       {
-        path:'password',
-        name:'password',
-        components:{
-          default:Home,
-          login:password
+        path: 'password', // 密码登录
+        name: 'password',
+        components: {
+          default: () => import('../components/main/index.vue'),
+          login: () => import('../components/nav/login/password.vue')
         }
       },
       {
-        path:'code',
-        name:'code',
-        components:{
-          default:Home,
-          login:code
+        path: 'code', // 验证码登录
+        name: 'code',
+        components: {
+          default: () => import('../components/main/index.vue'),
+          login: () => import('../components/nav/login/code.vue')
         }
-      },{
-        path:'register',
-        name:'register',
-        components:{
-          default:Home,
-          login:register
+      },
+      {
+        path: 'register', // 注册页面
+        name: 'register',
+        components: {
+          default: () => import('../components/main/index.vue'),
+          login: () => import('../components/nav/login/register.vue')
         }
-      },{
-        path:'retrieve',
-        name:'retrieve',
-        components:{
-          default:Home,
-          login:retrieve
+      },
+      {
+        path: 'retrieve', // 忘记密码页面
+        name: 'retrieve',
+        components: {
+          default: () => import('../components/main/index.vue'),
+          login: () => import('../components/nav/login/retrieve.vue')
         }
       },
     ]
   },
+
+  // 工具分享页面
   {
-    path:'/tool',
-    name:'tool',
-    component:tool
+    path: '/tool',
+    name: 'tool',
+    component: () => import('../components/tool/tool.vue')
   },
+
+  // 查看更多页面
   {
-    path: "/:catchAll(.*)", // 捕获所有未匹配的路由
+    path: '/morefull',
+    name: 'morefull',
+    component: () => import('../components/morefull/morefull.vue')
+  },
+  //全部课程页面
+  {
+    path: "/allCourse",
+    name: "allCourse",
+    component: () => import('../components/allCourse/allcourse.vue'),
+  },
+  // 404 页面
+  {
+    path: "/:catchAll(.*)",
     name: "NotFound",
-    component: notFound,
+    component: () => import('../components/notFound/notFound.vue'),
   },
+  
 ];
 
-// 创建路由实例
+// 创建路由实例，使用 HTML5 History 模式
 const router = createRouter({
-  history: createWebHistory(), // 使用 HTML5 History 模式
+  history: createWebHistory(),
   routes,
 });
 
-// 导出路由实例
 export default router;

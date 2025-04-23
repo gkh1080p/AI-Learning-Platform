@@ -1,30 +1,11 @@
 <template>
-    <!-- <div class="kindclass">
-        <div class="title">
-            <div class="title_left">XXXXX</div>
-            <div class="title_right">查看更多 ></div>
-        </div>
-        <CarComp v-for="item in KindObj" :key="item.login" :message="item" class="cardOne"></CarComp>
-    </div>
-    <div class="kindclass">
-        <div class="title">
-            <div class="title_left">XXXXX</div>
-            <div class="title_right">查看更多 ></div>
-        </div>
-        <CarComp v-for="item in KindObj" :key="item.login" :message="item" class="cardOne"></CarComp>
-    </div>
-    <div class="kindclass">
-        <div class="title">
-            <div class="title_left">XXXXX</div>
-            <div class="title_right">查看更多 ></div>
-        </div>
-        <CarComp v-for="item in KindObj" :key="item.login" :message="item" class="cardOne"></CarComp>
-    </div> -->
-
     <div v-for="(category, index) in categoryList" :key="category.categoryId" class="kindclass">
         <div class="title">
             <div class="title_left">{{ category.categoryName }}</div>
-            <div class="title_right">查看更多 ></div>
+            <router-link :to="{path:'/morefull',query:{id:category.categoryId}}">
+                <div class="title_right">查看更多 ></div>
+            </router-link>
+            
         </div>
         <CarComp v-for="item in category.course" :key="item.courseId" :message="item" class="cardOne" />
     </div>
@@ -32,13 +13,13 @@
 
 <script lang="ts">
 import CarComp from './comp/index.vue'
-import http from '@/utils/http.ts'
+import http from '../../../utils/http'
 import { ref, onMounted } from 'vue'
 export default {
     name: "ListClass",
     setup() {
         // 数据集合
-        const categoryList = ref([])
+        const categoryList = ref<any>([])
 
         // 请求数据的函数
         const fetchData = async () => {
@@ -119,5 +100,8 @@ export default {
         margin-top: 2px;
         color: #e5e5e5;
     }
+}
+*{
+    text-decoration: none !important;
 }
 </style>

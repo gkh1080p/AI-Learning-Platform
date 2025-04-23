@@ -9,9 +9,7 @@
                 <div class="foterValue">
                     {{ message.courseName }}
                 </div>
-                <!-- <div class="more">
-                    {{ message.courseDescription }}
-                </div> -->
+                
             </template>
         </el-card>
     </router-link>

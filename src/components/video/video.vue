@@ -15,16 +15,14 @@
             <el-row>
                 <el-col :span="6" class="list_tab">
                     <ul>
-                        <router-link to="/" class="nav-link">
-                            <li :class="{ active: activeTab === '/' }">
-                                <el-icon :size="20" color="#fe9900">
-                                    <HomeFilled />
-                                </el-icon>
-                                <div>回到主页</div>
-                            </li>
-                        </router-link>
-                        <router-link :to="{ path: '/video/tabList', query: { course_id: courseId } }" class="nav-link"
-                            path>
+                        <li class="nav-black" @click="goBack">
+                            <!-- <li :class="{ active: activeTab === '/' }"> -->
+                            <el-icon :size="20" color="#fe9900">
+                                <HomeFilled />
+                            </el-icon>
+                            <div>返回</div>
+                        </li>
+                        <router-link :to="{ path: '/video/tabList', query: { course_id: courseId } }" class="nav-link">
                             <li :class="{ active: activeTab === 'tabList' }">
                                 <el-icon :size="20" color="#fe9900">
                                     <MoreFilled />
@@ -74,6 +72,11 @@ export default {
         VideoPlayer, ChatDotSquare, MoreFilled, FolderRemove, HomeFilled
     },
     setup() {
+        // 返回上一级
+        const router = useRouter()
+        const goBack = () => {
+            router.back()
+        }
         // 功能栏高亮
         const route = useRoute();
         const activeTab = computed(() => {
@@ -108,10 +111,6 @@ export default {
                     text: '45秒有彩蛋'
                 }
             ],
-            // 废弃方案
-            // logo: 'https://i.postimg.cc/wx0Zb7Z6/Logo-AI-48-328x200px.png'
-
-
         });
         // 子组件传来的 url 直接赋值
         const handleVideoChange = (url: string) => {
@@ -140,7 +139,7 @@ export default {
         })
 
         return {
-            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab, HomeFilled, handleVideoChange, courseId
+            playerOptions, ChatDotSquare, MoreFilled, FolderRemove, activeTab, HomeFilled, handleVideoChange, courseId, goBack
         };
     },
 
@@ -254,6 +253,21 @@ export default {
             height: 100%; // 保证内容部分填满
             border-radius: 0 10px 10px 0;
         }
+    }
+}
+
+.nav-black {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 5px;
+    height: 50px;
+    &:hover {
+        background-color: #5a626a; // 深一点背景色
+        color: #4bf8be; // 字体变亮
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 }
 </style>
